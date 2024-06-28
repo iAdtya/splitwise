@@ -1,0 +1,9 @@
+id,name,value,currency,members,date,user_id
+2,Lunch,20.50,USD,"[""adi@example.com""]",2024-06-01,1
+
+
+id,email,password,default_currency
+1,adi@gmail.com,securePass@123,USD
+5,adasd@gmail.com,sadasdasdasd,ruppes
+7,adityad@gmail.com,sadasdasdasd,ruppes
+9,aditya@gmail.com,sadasdasdasd,USD
