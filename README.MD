@@ -26,3 +26,6 @@ pnpm dev
 
 - use postman to test the endpoints
 - import the postman collection from the postman folder
+
+## ER-DIAGRAM
+![ER-DIAGRAM](splitwise-ER-diagram.png)
