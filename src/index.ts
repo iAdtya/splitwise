@@ -11,7 +11,6 @@ import {
 } from "./db/schema";
 import { db } from "./db/db";
 import { eq, inArray } from "drizzle-orm";
-import { numeric } from "drizzle-orm/sqlite-core";
 
 export const app = express();
 const PORT = 3000;
@@ -36,7 +35,12 @@ app.post("/users", async (req, res) => {
     console.log(user);
     return res.json({ message: "User created successfully" });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    if (error instanceof Error) {
+      return res.status(400).json({ error: error.message });
+    } else {
+      // Handle the case where error is not an Error instance
+      return res.status(500).json({ error: "An unexpected error occurred" });
+    }
   }
 });
 
@@ -56,7 +60,12 @@ app.post("/update_user/:id", async (req, res) => {
 
     return res.json({ message: "User updated successfully" });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    if (error instanceof Error) {
+      return res.status(400).json({ error: error.message });
+    } else {
+      // Handle the case where error is not an Error instance
+      return res.status(500).json({ error: "An unexpected error occurred" });
+    }
   }
 });
 
@@ -68,7 +77,12 @@ app.delete("/delete_user/:id", async (req, res) => {
 
     return res.json({ message: "User deleted successfully" });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    if (error instanceof Error) {
+      return res.status(400).json({ error: error.message });
+    } else {
+      // Handle the case where error is not an Error instance
+      return res.status(500).json({ error: "An unexpected error occurred" });
+    }
   }
 });
 
@@ -121,7 +135,12 @@ app.post("/expense/", async (req, res) => {
 
     return res.json({ message: "Expense created successfully" });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    if (error instanceof Error) {
+      return res.status(400).json({ error: error.message });
+    } else {
+      // Handle the case where error is not an Error instance
+      return res.status(500).json({ error: "An unexpected error occurred" });
+    }
   }
 });
 
@@ -139,7 +158,12 @@ app.get("/expense/:user_id", async (req, res) => {
 
     return res.json({ expenses: expensesList });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    if (error instanceof Error) {
+      return res.status(400).json({ error: error.message });
+    } else {
+      // Handle the case where error is not an Error instance
+      return res.status(500).json({ error: "An unexpected error occurred" });
+    }
   }
 });
 
@@ -159,7 +183,12 @@ app.put("/expense_update/:id", async (req, res) => {
 
     return res.json({ updatedExpense: updatedRecord });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    if (error instanceof Error) {
+      return res.status(400).json({ error: error.message });
+    } else {
+      // Handle the case where error is not an Error instance
+      return res.status(500).json({ error: "An unexpected error occurred" });
+    }
   }
 });
 
@@ -171,7 +200,12 @@ app.delete("/expense_delete/:id", async (req, res) => {
       .status(200)
       .json({ message: `Expense deleted successfully for id ${expenseId}` });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    if (error instanceof Error) {
+      return res.status(400).json({ error: error.message });
+    } else {
+      // Handle the case where error is not an Error instance
+      return res.status(500).json({ error: "An unexpected error occurred" });
+    }
   }
 });
 
@@ -185,12 +219,19 @@ app.get("/balances/:user_id", async (req, res) => {
       })
       .from(balances)
       .where(eq(balances.user_id, userId));
-    return res.json({ balances: userBalances });
+    return res.status(200).json({ balances: userBalances });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    if (error instanceof Error) {
+      return res.status(400).json({ error: error.message });
+    } else {
+      // Handle the case where error is not an Error instance
+      return res.status(500).json({ error: "An unexpected error occurred" });
+    }
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
